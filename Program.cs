@@ -11,10 +11,10 @@ builder.Services.Configure<ThingSpeakSettings>(
     builder.Configuration.GetSection("ThingSpeak"));
 
 builder.Services.Configure<AiSettings>(
-    builder.Configuration.GetSection("Anthropic"));
+    builder.Configuration.GetSection("Ollama"));
 
 builder.Services.AddHttpClient<IThingSpeakService, ThingSpeakService>();
-builder.Services.AddHttpClient<IAIService, AnthropicAIService>();
+builder.Services.AddHttpClient<IAIService, OllamaAIService>();
 
 var app = builder.Build();
 
