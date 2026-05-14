@@ -1,0 +1,48 @@
+@page "/"
+
+<PageTitle>Androide IOT — Inicio</PageTitle>
+
+<div class="home-hero">
+    <div class="hero-icon">🤖</div>
+    <h1 class="hero-title">Androide IOT</h1>
+    <p class="hero-subtitle">Tu androide conversacional con inteligencia artificial y monitorización en tiempo real</p>
+</div>
+
+<div class="home-cards">
+
+    <div class="home-card">
+        <div class="card-icon">💬</div>
+        <h3>Conversa con el Androide</h3>
+        <p>
+            Escríbele lo que quieras: preguntas, emociones, ideas o simplemente charla.
+            El androide responde de forma natural gracias a la IA de Anthropic Claude.
+        </p>
+        <a href="/chat" class="btn btn-primary mt-auto">Ir al Chat</a>
+    </div>
+
+    <div class="home-card">
+        <div class="card-icon">📊</div>
+        <h3>Métricas en Tiempo Real</h3>
+        <p>
+            Con cada respuesta, el androide genera 5 indicadores de su estado interno:
+            <strong>Carga Cognitiva</strong>, <strong>Coherencia</strong>, <strong>Intensidad Emocional</strong>,
+            <strong>Latencia de Inferencia</strong> y <strong>Consumo Energético</strong>.
+            Estas métricas se envían y leen en ThingSpeak.
+        </p>
+    </div>
+
+    <div class="home-card">
+        <div class="card-icon">✏️</div>
+        <h3>Envío Manual</h3>
+        <p>
+            ¿Quieres probar el canal o introducir valores a mano?
+            Usa la pantalla de envío manual para escribir los 5 valores directamente y publicarlos en ThingSpeak con un solo clic.
+        </p>
+        <a href="/thingspeak-manual" class="btn btn-outline-primary mt-auto">Envío Manual</a>
+    </div>
+
+</div>
+
+<div class="home-footer">
+    <p>Los valores de las métricas oscilan entre <strong>0</strong> y <strong>100</strong>. Cuanto más profunda la conversación, más activo el androide.</p>
+</div>

@@ -1,0 +1,117 @@
+@page "/chat"
+@using AndroideIOT.ViewModels
+
+<PageTitle>Chat Androide</PageTitle>
+
+<div class="chat-layout">
+
+    <!-- ── COLUMNA IZQUIERDA: Chat ── -->
+    <div class="chat-panel">
+        <div class="chat-header">
+            <span>🤖 Androide IOT</span>
+            @if (VM.Cargando)
+            {
+                <span class="spinner-border spinner-border-sm text-light ms-2" role="status"></span>
+            }
+            @if (VM.EnviandoThingSpeak)
+            {
+                <span class="badge bg-warning text-dark ms-2" style="font-size:0.65rem;">ThingSpeak...</span>
+            }
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            @foreach (var msg in VM.Mensajes)
+            {
+                <div class="msg-row @(msg.Role == "user" ? "msg-user" : "msg-assistant")">
+                    <div class="msg-bubble">@msg.Content</div>
+                    <div class="msg-time">@msg.Timestamp.ToString("HH:mm")</div>
+                </div>
+            }
+            @if (VM.Cargando)
+            {
+                <div class="msg-row msg-assistant">
+                    <div class="msg-bubble msg-typing">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="chat-input-area">
+            <input class="form-control chat-input"
+                   placeholder="Escribe un mensaje..."
+                   @bind="VM.TextoUsuario"
+                   @bind:event="oninput"
+                   @onkeydown="OnKeyDown"
+                   disabled="@VM.Cargando" />
+            <button class="btn btn-primary btn-send"
+                    @onclick="EnviarMensaje"
+                    disabled="@(VM.Cargando || string.IsNullOrWhiteSpace(VM.TextoUsuario))">
+                &#9658;
+            </button>
+        </div>
+
+        @if (VM.ErrorMensaje is not null)
+        {
+            <div class="alert alert-danger m-2 py-1 small">@VM.ErrorMensaje</div>
+        }
+    </div>
+
+    <!-- ── COLUMNA DERECHA: Gráfica de barras ── -->
+    <div class="chart-panel">
+        <div class="chart-header">Estado del Androide</div>
+
+        <div class="chart-area">
+            <div class="bar-col">
+                <span class="bar-value">@VM.Metricas.CargaCognitiva</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="height:@(VM.Metricas.CargaCognitiva)%;background:#0d6efd;"></div>
+                </div>
+                <span class="bar-label">Carga<br/>Cognitiva</span>
+            </div>
+            <div class="bar-col">
+                <span class="bar-value">@VM.Metricas.NivelCoherencia</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="height:@(VM.Metricas.NivelCoherencia)%;background:#198754;"></div>
+                </div>
+                <span class="bar-label">Coherencia<br/>Emoc.</span>
+            </div>
+            <div class="bar-col">
+                <span class="bar-value">@VM.Metricas.IntensidadEmocional</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="height:@(VM.Metricas.IntensidadEmocional)%;background:#dc3545;"></div>
+                </div>
+                <span class="bar-label">Intensidad<br/>Niv.</span>
+            </div>
+            <div class="bar-col">
+                <span class="bar-value">@VM.Metricas.LatenciaInferencia</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="height:@(VM.Metricas.LatenciaInferencia)%;background:#fd7e14;"></div>
+                </div>
+                <span class="bar-label">Latencia<br/>Infer.</span>
+            </div>
+            <div class="bar-col">
+                <span class="bar-value">@VM.Metricas.ConsumoEnergetico</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="height:@(VM.Metricas.ConsumoEnergetico)%;background:#6f42c1;"></div>
+                </div>
+                <span class="bar-label">Consumo<br/>Energ.</span>
+            </div>
+        </div>
+
+        <div class="metrics-legend mt-3">
+            <div class="legend-row"><span class="legend-dot" style="background:#0d6efd;"></span><span class="legend-name">Carga Cognitiva</span><span class="legend-val">@VM.Metricas.CargaCognitiva</span></div>
+            <div class="legend-row"><span class="legend-dot" style="background:#198754;"></span><span class="legend-name">Nivel Coherencia</span><span class="legend-val">@VM.Metricas.NivelCoherencia</span></div>
+            <div class="legend-row"><span class="legend-dot" style="background:#dc3545;"></span><span class="legend-name">Intensidad Emocional</span><span class="legend-val">@VM.Metricas.IntensidadEmocional</span></div>
+            <div class="legend-row"><span class="legend-dot" style="background:#fd7e14;"></span><span class="legend-name">Latencia Inferencia</span><span class="legend-val">@VM.Metricas.LatenciaInferencia</span></div>
+            <div class="legend-row"><span class="legend-dot" style="background:#6f42c1;"></span><span class="legend-name">Consumo Energético</span><span class="legend-val">@VM.Metricas.ConsumoEnergetico</span></div>
+        </div>
+
+        @if (VM.ThingSpeakOk.HasValue)
+        {
+            <div class="alert @(VM.ThingSpeakOk.Value ? "alert-success" : "alert-warning") mt-3 py-1 small mb-0">
+                @(VM.ThingSpeakOk.Value ? "✔ Guardado en ThingSpeak" : "⚠ No se pudo guardar en ThingSpeak")
+            </div>
+        }
+    </div>
+</div>

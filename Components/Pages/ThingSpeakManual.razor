@@ -1,0 +1,61 @@
+@page "/thingspeak-manual"
+@using AndroideIOT.ViewModels
+
+<PageTitle>Envío Manual ThingSpeak</PageTitle>
+
+<div class="container mt-4" style="max-width: 520px;">
+    <h3 class="mb-4">Envío Manual a ThingSpeak</h3>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Carga Cognitiva (0–100)</label>
+                <input type="number" class="form-control" min="0" max="100"
+                       @bind="VM.CargaCognitiva" placeholder="0 – 100" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Nivel de Coherencia (0–100)</label>
+                <input type="number" class="form-control" min="0" max="100"
+                       @bind="VM.NivelCoherencia" placeholder="0 – 100" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Intensidad Emocional (0–100)</label>
+                <input type="number" class="form-control" min="0" max="100"
+                       @bind="VM.IntensidadEmocional" placeholder="0 – 100" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Latencia de Inferencia (0–100)</label>
+                <input type="number" class="form-control" min="0" max="100"
+                       @bind="VM.LatenciaInferencia" placeholder="0 – 100" />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Consumo Energético (0–100)</label>
+                <input type="number" class="form-control" min="0" max="100"
+                       @bind="VM.ConsumoEnergetico" placeholder="0 – 100" />
+            </div>
+
+            <button class="btn btn-primary w-100" @onclick="EnviarAsync" disabled="@VM.Enviando">
+                @if (VM.Enviando)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                    <span>Enviando...</span>
+                }
+                else
+                {
+                    <span>Enviar a ThingSpeak</span>
+                }
+            </button>
+
+            @if (!string.IsNullOrEmpty(VM.MensajeEstado))
+            {
+                <div class="alert @VM.AlertClass mt-3 mb-0" role="alert">
+                    @VM.MensajeEstado
+                </div>
+            }
+        </div>
+    </div>
+</div>
