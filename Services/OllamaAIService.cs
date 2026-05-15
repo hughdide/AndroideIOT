@@ -1,9 +1,9 @@
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using AndroideIOT.Configuration;
 using AndroideIOT.Models;
 using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace AndroideIOT.Services;
 
@@ -32,7 +32,7 @@ public class OllamaAIService : IAIService
         _httpClient = httpClient;
         _settings = settings.Value;
         _httpClient.BaseAddress = new Uri(_settings.BaseUrl);
-        _httpClient.Timeout = TimeSpan.FromMinutes(3);
+        _httpClient.Timeout = TimeSpan.FromMinutes(10);
     }
 
     public async Task<AiResponse?> GetResponseAsync(IReadOnlyList<ChatMessage> messages)
